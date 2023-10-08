@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../../../css/normalize.css">
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<title>ДЗ №1</title>
+</head>
+
+<body>
+	<div class="task">
+		<p class="task_title">Завдання №2</p>
+		<p class="task_title">Вводиться номер місяця. Автоматично виводити рекомендований одяг (зима – пальто, літо – шорти
+			….). Також автоматично виводити зображення з відповідним зображенням лісу (зима – ліс зі снігом, осінь – жовтий
+			ліс, …).
+		</p>
+	</div>
+
+	<div id="app">
+
+		<div class="input-box">
+			<label>Введіть номер місяця
+				<input type="number" v-model="monthNumber" @input="getClothes">
+			</label>
+			<p class="clothes">Рекомендований одяг: <strong>{{clothes}}</strong></p>
+			<div class="image-box">
+				<img :src="imgPath" alt="">
+			</div>
+		</div>
+
+
+	</div>
+
+	<style>
+		.task {
+			padding-top: 20px;
+			width: fit-content;
+			margin: 0px auto;
+		}
+
+		.task_title {
+			color: #ebebeb99;
+		}
+
+		.input-box {
+			margin-top: 50px;
+			padding: 16px;
+		}
+
+		.input-box input {
+			padding: 5px;
+			text-align: center;
+			border: none;
+			font-size: 1.25rem;
+			margin-left: 20px;
+			border-radius: 8px;
+		}
+
+		.clothes {
+			padding-top: 30px;
+			font-size: 20px;
+		}
+
+		.image-box {
+			padding-top: 30px;
+		}
+
+		.image-box img {
+			display: block;
+			max-width: 200px;
+			max-height: 200px;
+			margin: 0px auto;
+			border: none;
+			outline: none;
+
+		}
+	</style>
+
+	<script>
+		const { createApp } = Vue
+
+		const seasons = {
+			winter: {
+				clothes: 'Пуховик, шапка, шарф, рукавички, джинси з утепленням',
+				imgPath: './assets/winter.webp'
+			},
+			spring: {
+				clothes: 'Світшот, джинси, сорочка, гольф, черевики',
+				imgPath: './assets/spring.webp'
+			},
+			summer: {
+				clothes: 'Шорти, футболки, худі, кепка, шльопанці',
+				imgPath: './assets/summer.webp'
+			},
+			autumn: {
+				clothes: 'Плащ, світшот, джинси, черевики, берет',
+				imgPath: './assets/autumn.webp'
+			},
+		}
+
+		const app = createApp({
+
+			data() {
+				return {
+					monthNumber: null,
+					clothes: '',
+					imgPath: 'winter'
+				}
+			},
+
+			computed: {
+				getClothes() {
+					this.clothes = ''
+					this.imgPath = ''
+					if (this.monthNumber > 0 && this.monthNumber < 13) {
+						switch (this.monthNumber) {
+							case 3:
+							case 4:
+							case 5:
+								this.clothes = seasons.spring.clothes
+								this.imgPath = seasons.spring.imgPath
+								break
+							case 6:
+							case 7:
+							case 8:
+								this.clothes = seasons.summer.clothes
+								this.imgPath = seasons.summer.imgPath
+								break
+							case 9:
+							case 10:
+							case 11:
+								this.clothes = seasons.autumn.clothes
+								this.imgPath = seasons.autumn.imgPath
+								break
+							default: {
+								this.clothes = seasons.winter.clothes
+								this.imgPath = seasons.winter.imgPath
+							}
+						}
+					}
+				}
+			}
+		})
+		app.mount('#app')
+	</script>
+
+
+</body>
+
+</html>
