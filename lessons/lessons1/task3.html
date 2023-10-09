@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../../../css/normalize.css">
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<title>ДЗ №1</title>
+</head>
+
+<body>
+	<div class="task">
+		<p class="task_title">Завдання №3</p>
+		<p class="task_desc">Задано початок та кінець діапазону. При натисканні на кнопку випадковим чином генерувати
+			значення з вказаного діапазону
+			та відображати його.
+		</p>
+	</div>
+
+	<div id="app">
+
+		<div class="input-box">
+			<div>
+				<div class="start">
+					<label> Введіть початок діапазону <br />
+						<input v-model.lazy="start" type="number">
+					</label>
+				</div>
+				<div class="end">
+					<label> Введіть кінець діапазону <br />
+						<input v-model.lazy="end" type="number">
+					</label>
+				</div>
+				<button type="button" @click="getRandom">Click</button>
+			</div>
+
+			<div class="result-box">
+				<p>Результат:</p>
+				<p class="result">{{randomNum}}</p>
+			</div>
+		</div>
+
+
+	</div>
+
+	<style>
+		.task {
+			padding-top: 20px;
+			width: fit-content;
+			margin: 0px auto;
+			color: #ebebeb99;
+		}
+
+		.task_title {
+			text-align: center;
+			padding: 5px;
+		}
+
+		.task_desc {
+			max-width: 400px;
+			text-align: justify;
+			padding: 16px;
+		}
+
+		.input-box {
+			display: flex;
+			align-items: center;
+			text-align: center;
+			gap: 50px;
+			margin-top: 50px;
+			padding-left: 50px;
+		}
+
+		.result {
+			font-size: 4.375rem;
+			color: #189627;
+			text-align: center;
+			height: 81px;
+		}
+
+		.start {
+			margin-bottom: 32px;
+		}
+
+		.end {
+			margin-bottom: 32px;
+		}
+
+		input {
+			margin-top: 16px;
+			padding: 8px;
+			font-size: 1.25rem;
+		}
+
+
+		button {
+			padding: 8px 16px;
+			background-color: #189627;
+			border: none;
+			border-radius: 8px;
+		}
+	</style>
+
+	<script>
+		const { createApp } = Vue
+
+		const app = createApp({
+
+			data() {
+				return {
+					start: null,
+					end: null,
+					randomNum: null
+				}
+			},
+
+			methods: {
+				// в methods для того, щоб дані оновлювалися при кожному кліку
+				getRandom() {
+					let min, max
+					if (this.start > this.end) {
+						min = this.end
+						max = this.start
+					} else {
+						min = this.start
+						max = this.end
+					}
+					return this.randomNum = min + Math.floor(Math.random() * (max - min + 1))
+				}
+			},
+		})
+		app.mount('#app')
+	</script>
+
+
+</body>
+
+</html>
