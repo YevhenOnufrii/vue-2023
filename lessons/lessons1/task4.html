@@ -33,7 +33,7 @@
 		<div class="bank">
 			<p class="bank-amount">Сума на рахунку <span :style="{ color: amountColor }">{{amount}} грн.</span></p>
 
-			<div class="incomming">
+			<div class="incoming">
 
 				<label> Зарахувати на рахунок</label>
 				<input type="number" v-model="incomingSum" @input="getFee" @click="removeErrorMsg">
@@ -102,7 +102,7 @@
 			width: 100px;
 		}
 
-		.incomming {
+		.incoming {
 			display: flex;
 			gap: 8px;
 			align-items: center;
@@ -118,12 +118,6 @@
 			text-transform: uppercase;
 			color: red;
 			text-decoration: underline;
-		}
-
-		input::-webkit-outer-spin-button,
-		input::-webkit-inner-spin-button {
-			-webkit-appearance: none;
-			margin: 0;
 		}
 	</style>
 
