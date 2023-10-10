@@ -29,13 +29,13 @@
 
 		<div class="input-box">
 			<label>Введіть кількість пасажирів
-				<input type="number" v-model='passengers' @input="getCalc">
+				<input type="number" v-model='passengers'>
 			</label>
 
 			<ul class="list">Потрібно:
-				<li> автобусів: <strong>{{busses}}</strong></li>
-				<li> пляшок води: <strong>{{waterBottles}}</strong></li>
-				<li> бутербродів: <strong>{{sandwiches}}</strong></li>
+				<li> автобусів: <strong>{{getNumBusses}}</strong></li>
+				<li> пляшок води: <strong>{{getNumWaterBottles}}</strong></li>
+				<li> бутербродів: <strong>{{getNumSandwiches}}</strong></li>
 			</ul>
 		</div>
 
@@ -99,18 +99,20 @@
 
 			data() {
 				return {
-					busses: null,
-					waterBottles: null,
-					sandwiches: null,
-					passengers: 0
+					passengers: 0,
 				}
 			},
 
-			methods: {
-				getCalc() {
-					this.busses = Math.ceil(this.passengers / BUS_CAPACITY)
-					this.waterBottles = this.passengers * 2
-					this.sandwiches = this.passengers * 3
+
+			computed: {
+				getNumBusses() {
+					return Math.ceil(this.passengers / BUS_CAPACITY)
+				},
+				getNumWaterBottles() {
+					return this.passengers * 2
+				},
+				getNumSandwiches() {
+					return this.passengers * 3
 				}
 			}
 		})

@@ -117,13 +117,11 @@
 
 			methods: {
 				getRandom() {
-					let min, max
+					let min = this.start
+					let max = this.end
 					if (this.start > this.end) {
 						min = this.end
 						max = this.start
-					} else {
-						min = this.start
-						max = this.end
 					}
 					return this.randomNum = min + Math.floor(Math.random() * (max - min + 1))
 				}
