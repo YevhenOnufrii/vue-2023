@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../../../css/normalize.css">
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<title>ДЗ №1</title>
+</head>
+
+<body>
+	<div class="task">
+		<p class="task_title">Завдання №5</p>
+		<p class="task_desc">Додаток містить масив об’єктів (логін, пароль) -- існуючі логіни і паролі. Користувач вводить
+			логін і пароль, а програма повідомляє чи може користувач бути авторизованим (чи є він одним з масиву).
+		</p>
+	</div>
+
+	<div id="app">
+
+		<form>
+
+			<div class="login">
+				<label>login</label>
+				<input type="text" v-model='login'>
+			</div>
+
+			<div class="password">
+				<label>password</label>
+				<input type="password" v-model='password'>
+			</div>
+
+			<button @click="authentication">Go</button>
+
+		</form>
+
+		<p class="auth-msg" :style="{color: getMsgColor}">{{authMsg}}</p>
+
+	</div>
+
+	<style>
+		.task {
+			padding-top: 20px;
+			width: fit-content;
+			margin: 0px auto;
+			color: #ebebeb99;
+		}
+
+		.task_title {
+			text-align: center;
+			padding: 5px;
+		}
+
+		.task_desc {
+			max-width: 400px;
+			text-align: justify;
+			padding: 16px;
+		}
+
+		form {
+			margin-top: 50px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			row-gap: 16px;
+		}
+
+		label {
+			display: block;
+			padding-bottom: 6px;
+		}
+
+		input {
+			padding: 8px;
+			font-size: 20px;
+			text-align: center;
+			border-radius: 8px;
+			border: none;
+		}
+
+		button {
+			padding: 8px;
+			width: 100px;
+			border-radius: 8px;
+			border: none;
+		}
+
+		.auth-msg {
+			font-size: 1.25rem;
+			text-align: center;
+			padding-top: 20px;
+		}
+	</style>
+
+	<script>
+		const { createApp } = Vue
+
+		const usersList = [
+			{ login: 'user1', password: 'password1' },
+			{ login: 'user2', password: 'password2' },
+			{ login: 'user3', password: 'password3' },
+			{ login: 'user4', password: 'password4' },
+			{ login: 'user5', password: 'password5' }
+		];
+
+		const app = createApp({
+
+			data() {
+				return {
+					login: '',
+					password: '',
+					authMsg: '',
+					isUserExist: false
+				}
+			},
+
+			methods: {
+				authentication(event) {
+					event.preventDefault()
+					this.isUserExist = usersList.some(el => el.login === this.login && el.password === this.password)
+					this.authMsg = this.isUserExist ? 'Вхід дозволений' : 'Введено не вірні дані'
+				}
+			},
+
+			computed: {
+				getMsgColor() {
+					return this.isUserExist ? 'green' : 'red'
+				}
+			}
+
+		})
+		app.mount('#app')
+	</script>
+
+
+</body>
+
+</html>
