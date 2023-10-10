@@ -31,7 +31,7 @@
 	<div id="app">
 
 		<div class="bank">
-			<p class="bank-amount">Сума на рахунку <span :style="{ color: getAmountColor }">{{amount}}</span></p>
+			<p class="bank-amount">Сума на рахунку <span :style="{ color: amountColor }">{{amount}} грн.</span></p>
 
 			<div class="incomming">
 
@@ -52,19 +52,18 @@
 			<p class="fee">Відсотки за обслуговування <span>{{fee}}</span></p>
 
 			<hr>
-			<p class="eur-sum">Залишок у доларах: {{usdSum}}</p>
-			<p class="eur-sum">Залишок у євро {{eurSum}}</p>
+			<p class="usd-sum" :style="{color: balanceInUsbColor}">Залишок у доларах: {{getBalanceInUsd}} $
+			</p>
+			<p class="eur-sum" :style="{color: balanceInEurColor}">Залишок у євро {{getBalanceInEur}} Є</p>
 
 			<p class="errorMessage">{{errorMessage}}</p>
 		</div>
 
 
-
-
 	</div>
 
 	<style>
-		» .task {
+		.task {
 			padding-top: 20px;
 			width: fit-content;
 			margin: 0px auto;
@@ -79,6 +78,46 @@
 		.task_desc {
 			max-width: 900px;
 			padding: 16px;
+		}
+
+		.bank {
+			margin-top: 50px;
+			padding: 16px;
+			font-size: 1.25rem;
+			line-height: 1.2;
+			display: flex;
+			flex-direction: column;
+			row-gap: 8px;
+		}
+
+		input {
+			text-align: center;
+			padding: 8px;
+			max-width: 100px;
+			font-size: 1.25rem;
+		}
+
+		button {
+			padding: 8px;
+			width: 100px;
+		}
+
+		.incomming {
+			display: flex;
+			gap: 8px;
+			align-items: center;
+		}
+
+		.outgoing {
+			display: flex;
+			gap: 8px;
+			align-items: center;
+		}
+
+		.errorMessage {
+			text-transform: uppercase;
+			color: red;
+			text-decoration: underline;
 		}
 
 		input::-webkit-outer-spin-button,
@@ -100,12 +139,10 @@
 			data() {
 				return {
 					amount: 0,
-					amountColor: 'red',
+					amountColor: '',
 					incomingSum: null,
 					outgoingSum: null,
 					fee: null,
-					eurSum: null,
-					usdSum: null,
 					errorMessage: '',
 				}
 			},
@@ -116,24 +153,22 @@
 						this.amount += (this.incomingSum - this.fee)
 						this.incomingSum = null
 						this.fee = null
-						this.getCurrencyRate()
-					} else this.errorMessage = 'Введіть коректне число'
+						this.amountColor = 'green'
+					} else this.errorMessage = 'Число не може бути відʼємним'
 				},
 				decreaseAmount() {
-					if (this.outgoingSum <= this.amount) {
-						this.amount -= (this.outgoingSum - this.fee)
-						this.outgoingSum = null
-						this.fee = null
-						this.getCurrencyRate()
-					} else this.errorMessage = 'На рахунку не достатньо коштів'
+					if (this.outgoingSum > 0) {
+						if (this.outgoingSum <= this.amount) {
+							this.amount -= (this.outgoingSum - this.fee)
+							this.outgoingSum = null
+							this.fee = null
+							this.amountColor = 'red'
+						} else this.errorMessage = 'На рахунку не достатньо коштів'
+					} else this.errorMessage = 'Число не може бути відʼємним'
 				},
 				getFee(event) {
 					const inputValue = parseFloat(event.target.value)
-					this.fee = Math.floor(inputValue * FEE_RATE * 100) / 100
-				},
-				getCurrencyRate() {
-					this.usdSum = (this.amount / USD_RATE).toFixed(2)
-					this.eurSum = (this.amount / EUR_RATE).toFixed(2)
+					inputValue > 0 && (this.fee = Math.floor(inputValue * FEE_RATE * 100) / 100 || null)
 				},
 				removeErrorMsg() {
 					this.errorMessage = ''
@@ -141,10 +176,19 @@
 			},
 
 			computed: {
-
+				getBalanceInUsd() {
+					return (this.amount / USD_RATE).toFixed(2)
+				},
+				getBalanceInEur() {
+					return (this.amount / EUR_RATE).toFixed(2)
+				},
+				balanceInUsbColor() {
+					return this.getBalanceInUsd < 100 ? 'red' : 'green'
+				},
+				balanceInEurColor() {
+					return this.getBalanceInEur < 100 ? 'red' : 'green'
+				}
 			}
-
-
 		})
 		app.mount('#app')
 	</script>
