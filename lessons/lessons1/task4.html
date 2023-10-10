@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../../../css/normalize.css">
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<title>ДЗ №1</title>
+</head>
+
+<body>
+	<div class="task">
+		<p class="task_title">Завдання №4. Рахунок у банку</p>
+		<p class="task_desc">Вимоги: <br />
+			1) Спочатку сума дорівнює 0грн. Змінити суму у гривнях можна або зарахуванням на рахунок, або зняттям.<br />
+			2) Сума автоматично переводиться у долари та євро (фіксований курс задається у data).<br />
+			3) можливість зарахувати суму (контролювати, щоб не була від’ємною)<br />
+			4) можливість зняти (щоб не можна зняти більше ніж є на рахунку)<br />
+			5) при виконанні зняття і зарахування коштів вираховувати 3% від суми (відображати кількість відсотків
+			автоматично)<br />
+
+			При зміні суми : <br />
+			- якщо було зняття, то суму відображати червоним<br />
+			- якщо було зарахування, то суму відображати зеленим<br />
+			Якщо сума валюти менша за 100 то відображати червоним кольором, інакше - зеленим
+
+		</p>
+	</div>
+
+	<div id="app">
+
+		<div class="bank">
+			<p class="bank-amount">Сума на рахунку <span :style="{ color: getAmountColor }">{{amount}}</span></p>
+
+			<div class="incomming">
+
+				<label> Зарахувати на рахунок</label>
+				<input type="number" v-model="incomingSum" @input="getFee" @click="removeErrorMsg">
+				<button type="button" @click="increaseAmount">Зарахувати</button>
+
+			</div>
+
+			<div class="outgoing">
+
+				<label> Зняти з рахунку</label>
+				<input type="number" v-model="outgoingSum" @input="getFee" @click="removeErrorMsg">
+				<button type="button" @click="decreaseAmount">Зняти</button>
+
+			</div>
+
+			<p class="fee">Відсотки за обслуговування <span>{{fee}}</span></p>
+
+			<hr>
+			<p class="eur-sum">Залишок у доларах: {{usdSum}}</p>
+			<p class="eur-sum">Залишок у євро {{eurSum}}</p>
+
+			<p class="errorMessage">{{errorMessage}}</p>
+		</div>
+
+
+
+
+	</div>
+
+	<style>
+		» .task {
+			padding-top: 20px;
+			width: fit-content;
+			margin: 0px auto;
+			color: #ebebeb99;
+		}
+
+		.task_title {
+			text-align: center;
+			padding: 5px;
+		}
+
+		.task_desc {
+			max-width: 900px;
+			padding: 16px;
+		}
+
+		input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button {
+			-webkit-appearance: none;
+			margin: 0;
+		}
+	</style>
+
+	<script>
+		const { createApp } = Vue
+
+		const FEE_RATE = 0.03
+		const USD_RATE = 38
+		const EUR_RATE = 41
+
+		const app = createApp({
+
+			data() {
+				return {
+					amount: 0,
+					amountColor: 'red',
+					incomingSum: null,
+					outgoingSum: null,
+					fee: null,
+					eurSum: null,
+					usdSum: null,
+					errorMessage: '',
+				}
+			},
+
+			methods: {
+				increaseAmount() {
+					if (this.incomingSum > 0) {
+						this.amount += (this.incomingSum - this.fee)
+						this.incomingSum = null
+						this.fee = null
+						this.getCurrencyRate()
+					} else this.errorMessage = 'Введіть коректне число'
+				},
+				decreaseAmount() {
+					if (this.outgoingSum <= this.amount) {
+						this.amount -= (this.outgoingSum - this.fee)
+						this.outgoingSum = null
+						this.fee = null
+						this.getCurrencyRate()
+					} else this.errorMessage = 'На рахунку не достатньо коштів'
+				},
+				getFee(event) {
+					const inputValue = parseFloat(event.target.value)
+					this.fee = Math.floor(inputValue * FEE_RATE * 100) / 100
+				},
+				getCurrencyRate() {
+					this.usdSum = (this.amount / USD_RATE).toFixed(2)
+					this.eurSum = (this.amount / EUR_RATE).toFixed(2)
+				},
+				removeErrorMsg() {
+					this.errorMessage = ''
+				},
+			},
+
+			computed: {
+
+			}
+
+
+		})
+		app.mount('#app')
+	</script>
+
+
+</body>
+
+</html>
