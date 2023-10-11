@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../../css/normalize.css">
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<title>ДЗ №2</title>
+</head>
+
+<body>
+	<div class="task">
+		<p class="task_title">Завдання №1</p>
+		<p class="task_desc">Задача 1. Вводимо логін і пароль. Якщо логін вірний відображаємо смайл. Якщо ні, то: <br>
+			1) якщо логін = Іван – колір повідомлення про помилку синій <br>
+			2) якщо хтось інший, то колір повідомлення червоний
+
+		</p>
+	</div>
+
+	<div id="app">
+
+		<form>
+
+			<div class="login">
+				<label>login</label>
+				<input type="text" v-model.trim='login' @click="hideResults">
+			</div>
+
+			<div class="password">
+				<label>password</label>
+				<input type="password" v-model.trim='password' @click="hideResults">
+			</div>
+
+			<button @click="authentication">Go</button>
+
+			<template v-if="showResults">
+
+				<div v-if="isUserExist" class="success-image">
+					<img src="../../assets/smile-icon.svg" alt="image">
+				</div>
+
+				<div v-else class="error-msg" :class="{isIvan}">Не вірні дані</div>
+
+			</template>
+
+		</form>
+
+	</div>
+
+	<script>
+		const { createApp } = Vue
+
+		const usersList = [
+			{ login: 'user1', password: 'password1' },
+			{ login: 'user2', password: 'password2' },
+			{ login: 'user3', password: 'password3' },
+			{ login: 'user4', password: 'password4' },
+			{ login: 'user5', password: 'password5' },
+			{ login: 'Ivan', password: '111' }
+		];
+
+		const app = createApp({
+
+			data() {
+				return {
+					login: '',
+					password: '',
+					currentUser: null,
+					isUserExist: false,
+					showResults: false
+				}
+			},
+
+			methods: {
+				authentication(event) {
+					event.preventDefault()
+					this.currentUser = usersList.find(el => el.login.toUpperCase() === this.login.toUpperCase() && el.password === this.password)
+					this.isUserExist = !!this.currentUser
+					this.showResults = true
+				},
+				hideResults() {
+					this.showResults = false
+				}
+
+			},
+
+			computed: {
+				isIvan() {
+					return this.login.toUpperCase() === 'IVAN'
+				},
+
+			}
+
+		})
+		app.mount('#app')
+	</script>
+
+	<style>
+		.task {
+			padding-top: 20px;
+			width: fit-content;
+			margin: 0px auto;
+			color: #ebebeb99;
+		}
+
+		.task_title {
+			text-align: center;
+			padding: 5px;
+		}
+
+		.task_desc {
+			max-width: 600px;
+			text-align: justify;
+			padding: 16px;
+		}
+
+		form {
+			margin-top: 50px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			row-gap: 16px;
+		}
+
+		label {
+			display: block;
+			padding-bottom: 6px;
+		}
+
+		input {
+			padding: 8px;
+			font-size: 20px;
+			text-align: center;
+			border-radius: 8px;
+			border: none;
+		}
+
+		button {
+			padding: 8px;
+			width: 100px;
+			border-radius: 8px;
+			border: none;
+		}
+
+		.error-msg {
+			font-size: 1.25rem;
+			text-align: center;
+			padding-top: 20px;
+			color: red
+		}
+
+		.success-image {
+			width: 150px;
+		}
+
+		.success-image img {
+			width: 100%;
+			height: 100%;
+		}
+
+		.isIvan {
+			color: blue
+		}
+	</style>
+
+
+</body>
+
+</html>
