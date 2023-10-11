@@ -31,7 +31,11 @@
 	<div id="app">
 
 		<div class="bank">
-			<p class="bank-amount">Сума на рахунку <span :style="{ color: amountColor }">{{amount}} грн.</span></p>
+
+			<p class="bank-amount">Сума на рахунку <span :class="{
+				balance_green: isBalanceIncrease,
+				balance_red: !isBalanceIncrease,
+			}">{{amount}} </span> грн.</p>
 
 			<div class="incoming">
 
@@ -52,6 +56,7 @@
 			<p class="fee">Відсотки за обслуговування <span>{{fee}}</span></p>
 
 			<hr>
+
 			<p class="usd-sum" :style="{color: balanceInUsbColor}">Залишок у доларах: {{getBalanceInUsd}} $
 			</p>
 			<p class="eur-sum" :style="{color: balanceInEurColor}">Залишок у євро {{getBalanceInEur}} Є</p>
@@ -119,6 +124,14 @@
 			color: red;
 			text-decoration: underline;
 		}
+
+		.balance_red {
+			color: red
+		}
+
+		.balance_green {
+			color: green
+		}
 	</style>
 
 	<script>
@@ -133,30 +146,30 @@
 			data() {
 				return {
 					amount: 0,
-					amountColor: '',
 					incomingSum: null,
 					outgoingSum: null,
 					fee: null,
 					errorMessage: '',
+					isBalanceIncrease: false,
 				}
 			},
 
 			methods: {
 				increaseAmount() {
 					if (this.incomingSum > 0) {
-						this.amount += (this.incomingSum - this.fee)
+						this.amount = (parseFloat(this.amount) + (this.incomingSum - this.fee)).toFixed(2)
 						this.incomingSum = null
 						this.fee = null
-						this.amountColor = 'green'
+						if (!this.isBalanceIncrease) this.isBalanceIncrease = true
 					} else this.errorMessage = 'Число не може бути відʼємним'
 				},
 				decreaseAmount() {
 					if (this.outgoingSum > 0) {
 						if (this.outgoingSum <= this.amount) {
-							this.amount -= (this.outgoingSum - this.fee)
+							this.amount = (parseFloat(this.amount) - (this.outgoingSum + this.fee)).toFixed(2)
 							this.outgoingSum = null
 							this.fee = null
-							this.amountColor = 'red'
+							if (this.isBalanceIncrease) this.isBalanceIncrease = false
 						} else this.errorMessage = 'На рахунку не достатньо коштів'
 					} else this.errorMessage = 'Число не може бути відʼємним'
 				},
@@ -171,17 +184,17 @@
 
 			computed: {
 				getBalanceInUsd() {
-					return (this.amount / USD_RATE).toFixed(2)
+					return (parseFloat(this.amount) / USD_RATE).toFixed(2)
 				},
 				getBalanceInEur() {
-					return (this.amount / EUR_RATE).toFixed(2)
+					return (parseFloat(this.amount) / EUR_RATE).toFixed(2)
 				},
 				balanceInUsbColor() {
 					return this.getBalanceInUsd < 100 ? 'red' : 'green'
 				},
 				balanceInEurColor() {
 					return this.getBalanceInEur < 100 ? 'red' : 'green'
-				}
+				},
 			}
 		})
 		app.mount('#app')
