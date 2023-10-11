@@ -33,9 +33,9 @@
 			</label>
 
 			<ul class="list">Потрібно:
-				<li> автобусів: <strong>{{getNumBusses}}</strong></li>
-				<li> пляшок води: <strong>{{getNumWaterBottles}}</strong></li>
-				<li> бутербродів: <strong>{{getNumSandwiches}}</strong></li>
+				<li> автобусів: <strong>{{getBussesNum}}</strong></li>
+				<li> пляшок води: <strong>{{getWaterBottlesNum}}</strong></li>
+				<li> бутербродів: <strong>{{getSandwichesNum}}</strong></li>
 			</ul>
 		</div>
 
@@ -105,13 +105,13 @@
 
 
 			computed: {
-				getNumBusses() {
+				getBussesNum() {
 					return Math.ceil(this.passengers / BUS_CAPACITY)
 				},
-				getNumWaterBottles() {
+				getWaterBottlesNum() {
 					return this.passengers * 2
 				},
-				getNumSandwiches() {
+				getSandwichesNum() {
 					return this.passengers * 3
 				}
 			}
