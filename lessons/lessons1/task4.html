@@ -35,7 +35,7 @@
 			<p class="bank-amount">Сума на рахунку <span :class="{
 				balance_green: isBalanceIncrease,
 				balance_red: !isBalanceIncrease,
-			}">{{amount}} </span> грн.</p>
+			}">{{amount.toFixed(2)}} </span> грн.</p>
 
 			<div class="incoming">
 
@@ -157,7 +157,7 @@
 			methods: {
 				increaseAmount() {
 					if (this.incomingSum > 0) {
-						this.amount = (parseFloat(this.amount) + (this.incomingSum - this.fee)).toFixed(2)
+						this.amount += this.incomingSum - this.fee
 						this.incomingSum = null
 						this.fee = null
 						if (!this.isBalanceIncrease) this.isBalanceIncrease = true
@@ -166,7 +166,7 @@
 				decreaseAmount() {
 					if (this.outgoingSum > 0) {
 						if (this.outgoingSum <= this.amount) {
-							this.amount = (parseFloat(this.amount) - (this.outgoingSum + this.fee)).toFixed(2)
+							this.amount -= this.outgoingSum + this.fee
 							this.outgoingSum = null
 							this.fee = null
 							if (this.isBalanceIncrease) this.isBalanceIncrease = false
@@ -184,10 +184,10 @@
 
 			computed: {
 				getBalanceInUsd() {
-					return (parseFloat(this.amount) / USD_RATE).toFixed(2)
+					return (this.amount / USD_RATE).toFixed(2)
 				},
 				getBalanceInEur() {
-					return (parseFloat(this.amount) / EUR_RATE).toFixed(2)
+					return (this.amount / EUR_RATE).toFixed(2)
 				},
 				balanceInUsbColor() {
 					return this.getBalanceInUsd < 100 ? 'red' : 'green'
