@@ -22,7 +22,7 @@
 
 		<div class="input-box">
 			<label>Введіть номер місяця
-				<input type="number" v-model="monthNumber" @input="getClothes">
+				<input type="number" v-model="monthNumber" @input="getClothes" min="1" max="12">
 			</label>
 			<p class="clothes">Рекомендований одяг: <strong>{{clothes}}</strong></p>
 			<div class="image-box">
@@ -53,9 +53,10 @@
 			padding: 5px;
 			text-align: center;
 			border: none;
-			font-size: 1.25rem;
+			font-size: 1rem;
 			margin-left: 20px;
 			border-radius: 8px;
+			width: 70px;
 		}
 
 		.clothes {
@@ -78,24 +79,28 @@
 	<script>
 		const { createApp } = Vue
 
-		const seasons = {
-			winter: {
+		const seasons = [
+			{
+				monthsNumbers: [1, 2, 12],
 				clothes: 'Пуховик, шапка, шарф, рукавички, джинси з утепленням',
 				imgPath: './assets/winter.webp'
 			},
-			spring: {
+			{
+				monthsNumbers: [3, 4, 5],
 				clothes: 'Світшот, джинси, сорочка, гольф, черевики',
 				imgPath: './assets/spring.webp'
 			},
-			summer: {
+			{
+				monthsNumbers: [6, 7, 8],
 				clothes: 'Шорти, футболки, худі, кепка, шльопанці',
 				imgPath: './assets/summer.webp'
 			},
-			autumn: {
+			{
+				monthsNumbers: [9, 10, 11],
 				clothes: 'Плащ, світшот, джинси, черевики, берет',
 				imgPath: './assets/autumn.webp'
 			},
-		}
+		]
 
 		const app = createApp({
 
@@ -111,32 +116,12 @@
 				getClothes() {
 					this.clothes = ''
 					this.imgPath = ''
-					if (this.monthNumber > 0 && this.monthNumber < 13) {
-						switch (this.monthNumber) {
-							case 3:
-							case 4:
-							case 5:
-								this.clothes = seasons.spring.clothes
-								this.imgPath = seasons.spring.imgPath
-								break
-							case 6:
-							case 7:
-							case 8:
-								this.clothes = seasons.summer.clothes
-								this.imgPath = seasons.summer.imgPath
-								break
-							case 9:
-							case 10:
-							case 11:
-								this.clothes = seasons.autumn.clothes
-								this.imgPath = seasons.autumn.imgPath
-								break
-							default: {
-								this.clothes = seasons.winter.clothes
-								this.imgPath = seasons.winter.imgPath
-							}
+					seasons.forEach(season => {
+						if (season.monthsNumbers.includes(this.monthNumber)) {
+							this.clothes = season.clothes
+							this.imgPath = season.imgPath
 						}
-					}
+					})
 				}
 			}
 		})
