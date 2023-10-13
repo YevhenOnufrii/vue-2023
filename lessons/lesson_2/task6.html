@@ -23,6 +23,48 @@
 
 	<div id="app">
 
+		<form>
+			<label>Нова замовлена страва =>> </label>
+			<input v-model="newDish.title" type="text">
+			<button @click.prevent="addNewDish">Додати</button>
+		</form>
+
+		<table>
+			<tbody>
+				<tr>
+					<th>Очікують на виконання</th>
+				</tr>
+				<tr>
+					<td v-for="(dish, index) in waitingList" key="dish.id">
+						<span>{{dish.title}}</span>
+						<button @click="cook(index)">Готувати</button>
+					</td>
+				</tr>
+			</tbody>
+			<tbody>
+				<tr>
+					<th>Виконуються</th>
+				</tr>
+				<tr>
+					<td v-for="(dish, index) in processingList" key="dish.id">
+						<span>{{dish.title}}</span>
+						<button @click="readyToEat(index)">Приготовлено</button>
+					</td>
+				</tr>
+			</tbody>
+			<tbody>
+				<tr>
+					<th>Готові до виносу</th>
+				</tr>
+				<tr>
+					<td v-for="dish in completedList" key="dish.id">
+						<span>{{dish.title}}</span>
+						<button @click="removeDish(dish.id)">Подано</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
 	</div>
 
 	<script>
@@ -31,7 +73,12 @@
 		const app = createApp({
 			data() {
 				return {
-
+					newDish: {
+						title: null,
+					},
+					waitingList: [],
+					processingList: [],
+					completedList: []
 				}
 			},
 			computed: {
@@ -39,7 +86,26 @@
 			},
 
 			methods: {
-
+				addNewDish() {
+					this.waitingList.push({ ...this.newDish, id: this.getRandomId() })
+					this.newDish.title = null
+				},
+				getRandomId() {
+					return Math.floor(Math.random() * 1000000) + 1
+				},
+				cook(index) {
+					this.processingList.push(
+						...this.waitingList.splice(index, 1)
+					)
+				},
+				readyToEat(index) {
+					this.completedList.push(
+						...this.processingList.splice(index, 1)
+					)
+				},
+				removeDish(id) {
+					this.completedList = this.completedList.filter(dish => dish.id !== id)
+				}
 			},
 
 		})
@@ -47,8 +113,8 @@
 	</script>
 
 	<style>
-		.app {
-			width: 800px;
+		#app {
+			max-width: 800px;
 			margin: 0px auto;
 		}
 
@@ -68,6 +134,59 @@
 			max-width: 600px;
 			text-align: justify;
 			padding: 16px;
+		}
+
+		form {
+			padding: 15px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		form button {
+			width: 200px;
+		}
+
+		label {
+			font-size: 1.5rem;
+			color: aquamarine
+		}
+
+		input {
+			padding: 8px;
+		}
+
+		button {
+			padding: 8px 16px;
+			font-weight: bold;
+		}
+
+		table {
+			display: flex;
+		}
+
+		tbody {
+			flex: 0 1 33.3333%;
+		}
+
+		tr {
+			display: flex;
+			flex-direction: column;
+		}
+
+
+		th {
+			border: 1px solid white;
+			padding: 15px;
+		}
+
+		td {
+			border: 1px solid white;
+			padding: 15px;
+		}
+
+		td button {
+			float: right
 		}
 	</style>
 
