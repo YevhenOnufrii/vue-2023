@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../../css/normalize.css">
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<title>ДЗ №6</title>
+</head>
+
+<body>
+	<div class="task">
+		<p class="task_title">Завдання №6</p>
+		<p class="task_desc">На кухню поступають замовлення. Спочатку ми додаємо їх у список “Очікують на виконання”, якщо
+			повар береться робити —
+			замовлення переходить у список “Виконуються”, якщо замовлення виконано — переходить у список “Готові до виносу”.
+			Якщо
+			натиснути на “Подано” - страва зникає з таблиці.
+		</p>
+
+	</div>
+
+	<div id="app">
+
+	</div>
+
+	<script>
+		const { createApp } = Vue
+
+		const app = createApp({
+			data() {
+				return {
+
+				}
+			},
+			computed: {
+
+			},
+
+			methods: {
+
+			},
+
+		})
+		app.mount('#app')
+	</script>
+
+	<style>
+		.app {
+			width: 800px;
+			margin: 0px auto;
+		}
+
+		.task {
+			padding-top: 20px;
+			width: fit-content;
+			margin: 0px auto;
+			color: #ebebeb99;
+		}
+
+		.task_title {
+			text-align: center;
+			padding: 5px;
+		}
+
+		.task_desc {
+			max-width: 600px;
+			text-align: justify;
+			padding: 16px;
+		}
+	</style>
+
+
+</body>
+
+</html>

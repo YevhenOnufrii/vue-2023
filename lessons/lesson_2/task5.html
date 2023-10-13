@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../../css/normalize.css">
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<title>ДЗ №5</title>
+</head>
+
+<body>
+	<div class="task">
+		<p class="task_title">Завдання №5</p>
+		<p class="task_desc">
+			Самостійно сформуйте масив даних та виведіть фрагмент на зразок поданого (дані не обов’язковоповинні співпадати)
+		</p>
+		<div class="desc-image">
+			<img src="../../assets/list_example.jpg" alt="">
+		</div>
+	</div>
+
+	<div id="app">
+
+		<div class="searchResults">
+
+
+			<div v-for="res in dataList" key="res.id" class="search-res-unit">
+				<div class="unit-header">
+					<div class="unit-circle" :style="{backgroundColor: res.circleColor}"></div>
+					<div>
+						<a :href="res.link" class="unit-name">{{res.name}}</a>
+						<p class="unit-link">{{res.link}}</p>
+					</div>
+				</div>
+				<div class="unit-content">
+					<a :href="res.link" class="unit-link">{{res.title}}</a>
+					<p>{{res.desc}}</p>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+	<script>
+		const { createApp } = Vue
+
+		const data = [
+			{
+				name: 'Name 1',
+				id: 1,
+				link: 'https://some-important.link1',
+				title: 'Some title 1',
+				desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat, repellendus magnam voluptatibus provident qui soluta expedita exercitationem nesciunt...",
+				circleColor: 'red'
+			},
+			{
+				name: 'Name 2',
+				id: 2,
+				link: 'https://some-important.link2',
+				title: 'Some title 2',
+				desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat, repellendus magnam voluptatibus provident qui soluta expedita exercitationem nesciunt...",
+				circleColor: 'blue'
+			},
+			{
+				name: 'Name 3',
+				id: 3,
+				link: 'https://some-important.link3',
+				title: 'Some title 3',
+				desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat, repellendus magnam voluptatibus provident qui soluta expedita exercitationem nesciunt...",
+				circleColor: 'gray'
+			},
+			{
+				name: 'Name 4',
+				id: 4,
+				link: 'https://some-important.link4',
+				title: 'Some title 4',
+				desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat, repellendus magnam voluptatibus provident qui soluta expedita exercitationem nesciunt...",
+				circleColor: 'yellow'
+			},
+		]
+
+		const app = createApp({
+			data() {
+				return {
+
+				}
+			},
+			computed: {
+				dataList() {
+					return data
+				}
+			}
+		})
+		app.mount('#app')
+	</script>
+
+	<style>
+		.app {
+			width: 800px;
+			margin: 0px auto;
+		}
+
+		.task {
+			padding-top: 20px;
+			color: #ebebeb99;
+
+		}
+
+		.task_title {
+			text-align: center;
+			padding: 5px;
+		}
+
+		.task_desc {
+			text-align: center;
+			padding: 16px;
+		}
+
+		.desc-image {
+			width: 400px;
+			margin: 0px auto;
+		}
+
+		.desc-image img {
+			max-width: 100%;
+		}
+
+		.searchResults {
+			display: flex;
+			flex-direction: column;
+			gap: 22px;
+			padding-left: 30px;
+		}
+
+		.unit-header {
+			display: flex;
+			align-items: center;
+			column-gap: 10px;
+
+		}
+
+		.unit-header a {
+			display: block;
+		}
+
+		.unit-circle {
+			width: 30px;
+			height: 30px;
+			border-radius: 50%;
+		}
+
+		.unit-name {
+			font-weight: bold;
+
+		}
+
+		.unit-link {
+			font-size: 16px;
+			color: gray;
+		}
+
+		.unit-content a {
+			color: rgb(73, 73, 248);
+			font-size: 30px;
+			display: inline-block;
+			line-height: 1.2;
+			margin-top: 10px;
+		}
+
+		.unit-content p {
+			max-width: 700px;
+			font-size: 1rem;
+		}
+
+		* a:hover {
+			color: inherit;
+		}
+	</style>
+
+
+</body>
+
+</html>
