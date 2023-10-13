@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../../css/normalize.css">
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<title>ДЗ №3</title>
+</head>
+
+<body>
+	<div class="task">
+		<p class="task_title">Завдання №3</p>
+		<p class="task_desc">Елемент тренажера англійської. Виводимо зображення елемента і слово. Користувач вводить
+			відповідь. Якщо вірно – відтворюємо фразу «Добре. Молодець!» (і додаємо зелену рамку до елемента), якщо ні - то
+			відтворюємо фразу «Невірно, спробуйте ще раз» (і додаємо червону рамку).
+		</p>
+
+	</div>
+
+	<div id="app">
+
+		<div class="card" :class="{ [borderColor]: userAnswer}">
+
+			<div class="image-box">
+				<img :src="dictionary[questionNum].image" alt="image">
+			</div>
+			<div class="description">{{dictionary[questionNum].word}}</div>
+			<form>
+
+				<label> Ваш переклад</label>
+				<input type="text" v-model.trim="inputValue" @focus="clearData">
+
+				<button @click.prevent="checkAnswer">Перевірити</button>
+
+				<button @click.prevent="nextQuestion">Наступна картка</button>
+				<p v-show="userAnswer" class="res-msg" :style="{color: resMsgColor}">{{resMsgText}}</p>
+
+			</form>
+
+		</div>
+
+	</div>
+
+	<script>
+		const { createApp } = Vue
+
+		const app = createApp({
+			data() {
+				return {
+					dictionary: [
+						{
+							word: 'dog',
+							translate: 'собака',
+							image: '../../assets/dog.svg',
+						},
+						{
+							word: 'cat',
+							translate: 'кіт',
+							image: '../../assets/cat.svg',
+						},
+						{
+							word: 'tiger',
+							translate: 'тигр',
+							image: '../../assets/tiger.svg',
+						},
+						{
+							word: 'table',
+							translate: 'стіл',
+							image: '../../assets/table.svg',
+						},
+						{
+							word: 'chair',
+							translate: 'стілець',
+							image: '../../assets/chair.svg',
+						},
+					],
+					inputValue: null,
+					userAnswer: null,
+					questionNum: 0,
+				}
+			},
+			computed: {
+				isUserAnswerCorrect() {
+					return this.userAnswer === this.dictionary[this.questionNum].translate
+				},
+				borderColor() {
+					return this.isUserAnswerCorrect ? 'green-border' : 'red-border'
+				},
+				resMsgColor() {
+					return this.isUserAnswerCorrect ? 'green' : 'red'
+				},
+				resMsgText() {
+					return this.isUserAnswerCorrect ? 'Добре. Молодець!' : 'Невірно, спробуйте ще раз'
+				},
+			},
+
+			methods: {
+				checkAnswer() {
+					this.inputValue && (this.userAnswer = this.inputValue)
+				},
+				clearData() {
+					this.userAnswer = null
+					this.inputValue = null
+				},
+				nextQuestion() {
+					if (this.questionNum < this.dictionary.length - 1) this.questionNum += 1
+					else this.questionNum = 0
+					this.clearData()
+				}
+			},
+
+		})
+		app.mount('#app')
+	</script>
+
+	<style>
+		.app {
+			width: 800px;
+			margin: 0px auto;
+		}
+
+		.task {
+			padding-top: 20px;
+			width: fit-content;
+			margin: 0px auto;
+			color: #ebebeb99;
+		}
+
+		.task_title {
+			text-align: center;
+			padding: 5px;
+		}
+
+		.task_desc {
+			max-width: 600px;
+			text-align: justify;
+			padding: 16px;
+		}
+
+		.card {
+			width: 400px;
+			height: 470px;
+			margin: 0px auto;
+			border: 1px solid white;
+			background-color: #fff;
+			color: black;
+			padding: 16px;
+			border-radius: 4px;
+			border: 5px solid transparent;
+		}
+
+		.red-border {
+			border: 5px solid red;
+		}
+
+		.green-border {
+			border: 5px solid green;
+		}
+
+		.image-box {
+			width: 150px;
+			margin: 0px auto;
+
+		}
+
+		.image-box img {
+			max-width: 100%;
+			max-height: 100%;
+		}
+
+		.description {
+			text-align: center;
+			font-size: 1.4375rem;
+			line-height: 1.2;
+		}
+
+		form {
+			margin-top: 15px;
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+		}
+
+		form label {
+			align-self: center;
+			font-size: 1.125rem;
+			font-weight: bold;
+		}
+
+		form input {
+			padding: 5px;
+			font-size: 18px;
+			text-align: center;
+		}
+
+		form button {
+			padding: 5px;
+			font-size: 1.25rem;
+			font-weight: bold;
+		}
+
+		.wrong_answer {
+			font-size: 2rem;
+			color: red;
+			text-align: center;
+		}
+
+		.res-msg {
+			font-size: 2rem;
+			text-align: center;
+			padding-top: 15px;
+		}
+	</style>
+
+
+</body>
+
+</html>
