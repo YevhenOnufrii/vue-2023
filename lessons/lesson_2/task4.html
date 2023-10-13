@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../../css/normalize.css">
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<title>ДЗ №4</title>
+</head>
+
+<body>
+	<div class="task">
+		<p class="task_title">Завдання №4</p>
+		<p class="task_desc">Вивести список як маркований список з елементами у форматі (name: salary)
+		</p>
+
+	</div>
+
+	<div id="app">
+
+		<ul>
+			<li v-for="(worker) in workersList2" key="worker.id"> {{worker.name}} : {{worker.salary}} </li>
+		</ul>
+
+	</div>
+
+	<script>
+		const { createApp } = Vue
+
+		const app = createApp({
+			data() {
+				return {
+					workersList2: [
+						{
+							id: '111',
+							name: 'Іванов',
+							salary: 10000,
+						},
+						{
+							id: '112',
+							name: 'Петров',
+							salary: 20000,
+						},
+						{
+							id: '113',
+							name: 'Сидоров',
+							salary: 50000,
+						},
+					],
+				}
+			},
+		})
+		app.mount('#app')
+	</script>
+
+	<style>
+		.app {
+			width: 800px;
+			margin: 0px auto;
+		}
+
+		.task {
+			padding-top: 20px;
+			width: fit-content;
+			margin: 0px auto;
+			color: #ebebeb99;
+		}
+
+		.task_title {
+			text-align: center;
+			padding: 5px;
+		}
+
+		.task_desc {
+			max-width: 600px;
+			text-align: justify;
+			padding: 16px;
+		}
+
+		ul {
+			width: 300px;
+			margin: 0px auto;
+			list-style: inside;
+		}
+
+		ul li {
+			margin-top: 10px;
+			font-size: 1.625rem;
+		}
+	</style>
+
+
+</body>
+
+</html>
