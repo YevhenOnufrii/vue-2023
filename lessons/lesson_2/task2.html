@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../../css/normalize.css">
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<title>ДЗ №2</title>
+</head>
+
+<body>
+	<div class="task">
+		<p class="task_title">Завдання №2</p>
+		<p class="task_desc">З випадаючого списку вибираємо клас квитка у літаку. Якщо <br>
+			1) бізнес - виводимо елементи для вибору газети та коньяку (якщо вибрано коньяк, то запропонувати закуску
+			(так/ні)), на
+			фоні зображення бізнес кают <br>
+			2) економ – виводимо елементи для вибору типу пива і чипсів, на фоні хмарки.
+		</p>
+
+	</div>
+
+	<div id="app">
+
+		<form class="select">
+			<div>
+				<label>Select the ticket class:</label>
+				<select v-model="ticketClass">
+					<option value="business">Business class</option>
+					<option value="economy">Economy class</option>
+				</select>
+			</div>
+		</form>
+
+		<!-- business class -->
+		<form v-if="isBusinessClass" class="business">
+			<div class="business_checkbox">
+				<div class="smoke">
+					<div class="business-option">
+						<p>Extra options</p>
+						<input type="checkbox" id="brandy" value="cognac" @change="checkboxHandler">
+						<label for="brandy"> Brandy </label>
+					</div>
+
+					<div class="business-option">
+						<input type="checkbox" id="newspaper" value="newspaper" @change="checkboxHandler">
+						<label for="newspaper"> Newspaper </label>
+					</div>
+					<div v-if="optionsList.cognac" class="business-option">
+						<p>Snacks?</p>
+						<input type="radio" id="snacks_yes" v-model="snacks" name="snacks" value="true" @change="radioBtnHandler">
+						<label for="snacks_yes"> Yes </label>
+						<input type="radio" id="snacks_no" v-model="snacks" name="snacks" value="false">
+						<label for="snacks_no"> No </label>
+					</div>
+				</div>
+			</div>
+		</form>
+
+		<!--economy class -->
+		<form v-if="isEconomyClass" class="economy">
+			<div class="smoke">
+				<div class="economy_options">
+					<div class="beer">
+						<label>Select a beer</label>
+						<select v-model="optionsList.beer" @change="log">
+							<option v-for="(beer, index) in beersList" :value="beer" key="index">{{beer}}</option>
+						</select>
+					</div>
+					<div class="cheeps">
+						<label>Select chips</label>
+						<select v-model="optionsList.chips" @change="log">
+							<option v-for="(chips, index) in chipsList" :value="chips" key="index">{{chips}}</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<script>
+		const { createApp } = Vue
+
+		const app = createApp({
+			data() {
+				return {
+					ticketClass: null,
+					optionsList: {
+						cognac: false,
+						newspaper: false,
+						snacks: false,
+						beer: null,
+						chips: null,
+					},
+					beersList: ['beer1', 'beer2', 'beer3', 'beer4', 'beer5'],
+					chipsList: ['chips1', 'chips2', 'chips3', 'chips4', 'chips5'],
+				}
+			},
+
+			methods: {
+				checkboxHandler(event) {
+					this.optionsList[event.target.value] = event.srcElement.checked
+				},
+				radioBtnHandler(event) {
+					this.optionsList.snacks = event.srcElement.checked
+				}
+			},
+
+			computed: {
+				isBusinessClass() {
+					return this.ticketClass === 'business'
+				},
+				isEconomyClass() {
+					return this.ticketClass === 'economy'
+				},
+				log() {
+					console.log(this.optionsList.beer, this.optionsList.chips)
+				}
+			}
+
+		})
+		app.mount('#app')
+	</script>
+
+	<style>
+		.app {
+			width: 800px;
+			margin: 0px auto;
+		}
+
+		.task {
+			padding-top: 20px;
+			width: fit-content;
+			margin: 0px auto;
+			color: #ebebeb99;
+		}
+
+		.task_title {
+			text-align: center;
+			padding: 5px;
+		}
+
+		.task_desc {
+			max-width: 600px;
+			text-align: justify;
+			padding: 16px;
+		}
+
+		.select {
+			margin-top: 50px;
+			margin-bottom: 32px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			row-gap: 16px;
+
+		}
+
+		select {
+			width: 150px;
+			padding: 5px;
+			margin-left: 15px;
+		}
+
+		.smoke {
+			background-color: #ffffffb6;
+			width: 100%;
+			height: 100%;
+			opacity: 0.4;
+		}
+
+		.business {
+
+			background: url('../../assets/business_class.jpg');
+			background-position: 0 0;
+			background-repeat: no-repeat;
+			background-size: cover;
+			max-width: 1000px;
+			height: 600px;
+			margin: 0px auto;
+
+			font-size: 2rem;
+
+		}
+
+		.business_checkbox {
+			color: #000;
+
+		}
+
+		.business-option {
+			padding: 10px;
+			margin-left: 30px;
+		}
+
+		.business-option label {
+			text-align: left;
+			font-size: 18px;
+
+		}
+
+		.business-option input {
+			text-align: left;
+			margin-right: 10px;
+			font-size: 18px;
+
+		}
+
+		.economy {
+			background: url('../../assets/economy_class.jpg');
+			background-position: 0 0;
+			background-repeat: no-repeat;
+			background-size: cover;
+			max-width: 1000px;
+			height: 600px;
+			margin: 0px auto;
+			font-size: 2rem;
+		}
+
+		.economy_options {
+			padding: 16px;
+			display: flex;
+			column-gap: 20px;
+			align-items: center;
+			justify-content: center;
+
+		}
+
+		.economy_options label {
+			color: #000;
+		}
+	</style>
+
+
+</body>
+
+</html>
