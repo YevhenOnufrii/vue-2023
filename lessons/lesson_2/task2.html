@@ -64,13 +64,13 @@
 				<div class="economy_options">
 					<div class="beer">
 						<label>Select a beer</label>
-						<select v-model="optionsList.beer" @change="log">
+						<select v-model="optionsList.beer">
 							<option v-for="(beer, index) in beersList" :value="beer" key="index">{{beer}}</option>
 						</select>
 					</div>
 					<div class="cheeps">
 						<label>Select chips</label>
-						<select v-model="optionsList.chips" @change="log">
+						<select v-model="optionsList.chips">
 							<option v-for="(chips, index) in chipsList" :value="chips" key="index">{{chips}}</option>
 						</select>
 					</div>
@@ -114,9 +114,6 @@
 				isEconomyClass() {
 					return this.ticketClass === 'economy'
 				},
-				log() {
-					console.log(this.optionsList.beer, this.optionsList.chips)
-				}
 			}
 
 		})
