@@ -137,7 +137,6 @@
 				return {
 					login: '',
 					password: '',
-					isUserExist: false,
 					showResults: false
 				}
 			},
@@ -145,18 +144,19 @@
 				isIvan() {
 					return this.login.toUpperCase() === 'IVAN'
 				},
-
-				methods: {
-					authentication() {
-						const enteredLogin = this.login.toUpperCase()
-						this.isUserExist = usersList.some(user => user.login.toUpperCase() === enteredLogin && user.password === this.password)
-						this.showResults = true
-					},
-					hideResults() {
-						this.showResults = false
-					}
+				isUserExist() {
+					const enteredLogin = this.login.toUpperCase()
+					return usersList.some(user => user.login.toUpperCase() === enteredLogin && user.password === this.password)
 				},
-			}
+			},
+			methods: {
+				authentication() {
+					this.showResults = true
+				},
+				hideResults() {
+					this.showResults = false
+				}
+			},
 
 		})
 		app.mount('#app')
