@@ -97,16 +97,6 @@
 					chipsList: ['chips1', 'chips2', 'chips3', 'chips4', 'chips5'],
 				}
 			},
-
-			methods: {
-				checkboxHandler(event) {
-					this.optionsList[event.target.value] = event.srcElement.checked
-				},
-				radioBtnHandler(event) {
-					this.optionsList.snacks = event.srcElement.checked
-				}
-			},
-
 			computed: {
 				isBusinessClass() {
 					return this.ticketClass === 'business'
@@ -114,8 +104,16 @@
 				isEconomyClass() {
 					return this.ticketClass === 'economy'
 				},
-			}
 
+				methods: {
+					checkboxHandler(event) {
+						this.optionsList[event.target.value] = event.srcElement.checked
+					},
+					radioBtnHandler(event) {
+						this.optionsList.snacks = event.srcElement.checked
+					}
+				},
+			}
 		})
 		app.mount('#app')
 	</script>

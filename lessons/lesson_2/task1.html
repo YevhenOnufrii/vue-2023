@@ -141,23 +141,21 @@
 					showResults: false
 				}
 			},
-
-			methods: {
-				authentication() {
-					const enteredLogin = this.login.toUpperCase()
-					this.isUserExist = usersList.some(user => user.login.toUpperCase() === enteredLogin && user.password === this.password)
-					this.showResults = true
-				},
-				hideResults() {
-					this.showResults = false
-				}
-			},
-
 			computed: {
 				isIvan() {
 					return this.login.toUpperCase() === 'IVAN'
 				},
 
+				methods: {
+					authentication() {
+						const enteredLogin = this.login.toUpperCase()
+						this.isUserExist = usersList.some(user => user.login.toUpperCase() === enteredLogin && user.password === this.password)
+						this.showResults = true
+					},
+					hideResults() {
+						this.showResults = false
+					}
+				},
 			}
 
 		})
