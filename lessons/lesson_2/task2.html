@@ -47,12 +47,12 @@
 						<input type="checkbox" id="newspaper" value="newspaper" @change="checkboxHandler">
 						<label for="newspaper"> Newspaper </label>
 					</div>
-					<div v-if="optionsList.cognac" class="business-option">
+					<div v-if="optionsList.cognac" class="business-option radioBts">
 						<p>Snacks?</p>
-						<input type="radio" id="snacks_yes" v-model="snacks" name="snacks" value="true" @change="radioBtnHandler">
-						<label for="snacks_yes"> Yes </label>
-						<input type="radio" id="snacks_no" v-model="snacks" name="snacks" value="false">
-						<label for="snacks_no"> No </label>
+						<input type="radio" v-model="optionsList.snacks" name="snacks" @change="radioBtnHandler" value="true">
+						<label> Yes </label>
+						<input type="radio" v-model="optionsList.snacks" name="snacks" value="false">
+						<label> No </label>
 					</div>
 				</div>
 			</div>
@@ -79,6 +79,7 @@
 		</form>
 	</div>
 
+
 	<script>
 		const { createApp } = Vue
 
@@ -89,7 +90,7 @@
 					optionsList: {
 						cognac: false,
 						newspaper: false,
-						snacks: false,
+						snacks: true,
 						beer: null,
 						chips: null,
 					},
@@ -104,16 +105,15 @@
 				isEconomyClass() {
 					return this.ticketClass === 'economy'
 				},
-
-				methods: {
-					checkboxHandler(event) {
-						this.optionsList[event.target.value] = event.srcElement.checked
-					},
-					radioBtnHandler(event) {
-						this.optionsList.snacks = event.srcElement.checked
-					}
+			},
+			methods: {
+				checkboxHandler(event) {
+					this.optionsList[event.target.value] = event.srcElement.checked
 				},
-			}
+				radioBtnHandler(event) {
+					this.optionsList.snacks = event.srcElement.checked
+				}
+			},
 		})
 		app.mount('#app')
 	</script>
@@ -225,6 +225,11 @@
 
 		.economy_options label {
 			color: #000;
+		}
+
+		.radioBts input {
+			width: 20px;
+			height: 20px;
 		}
 	</style>
 
