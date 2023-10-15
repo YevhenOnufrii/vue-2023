@@ -83,7 +83,7 @@
 			},
 			computed: {
 				isUserAnswerCorrect() {
-					return this.userAnswer === this.dictionary[this.questionNum].translate
+					return this.userAnswer && (this.userAnswer.toLowerCase() === this.dictionary[this.questionNum].translate)
 				},
 				borderColor() {
 					return this.isUserAnswerCorrect ? 'green-border' : 'red-border'
