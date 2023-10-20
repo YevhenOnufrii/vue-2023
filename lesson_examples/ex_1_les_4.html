@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../../css/normalize.css">
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<style>
+		.task {
+			padding-top: 20px;
+			width: fit-content;
+			margin: 0px auto;
+			color: #ebebeb99;
+		}
+
+		.task_title {
+			text-align: center;
+			padding: 5px;
+		}
+
+		.task_desc {
+			max-width: 600px;
+			text-align: justify;
+			padding: 16px;
+		}
+
+		form>div {
+			display: flex;
+			flex-direction: column;
+			width: 200px;
+		}
+	</style>
+
+	<title>Lesson 4</title>
+
+</head>
+
+<body>
+	<div class="task">
+		<p class="task_title">Lesson 4</p>
+		<p class="task_desc">Вводиться 3 оцінки. Поступово, якщо якась оцінка не введена, то виводити повідомлення і
+			поміщати фокус у потрібне поле.Знайти мінімальну оцінку.
+		</p>
+	</div>
+
+	<div id="app">
+
+		<form>
+
+			<div v-for="i in 3" :key="i">
+				<label>Оцінка №{{i}}
+					<input ref="inputs" v-model.lazy="inputs[i-1]" type="number" @click="cleanMessage">
+				</label>
+			</div>
+
+			<button @click.prevent="onClick">Go</button>
+
+		</form>
+
+		<p>{{message}}</p>
+
+	</div>
+
+	<script>
+		const { createApp } = Vue
+
+		const app = createApp({
+
+			data() {
+				return {
+					inputs: [],
+					message: null
+				}
+			},
+			computed: {
+
+			},
+			methods: {
+				onClick() {
+					let emptySlotNum = null
+					for (let i = 0; i < 3; i++) {
+						if (!this.inputs[i]) {
+
+							emptySlotNum = i
+							break
+						}
+					}
+
+					if (typeof emptySlotNum === 'number') {
+						this.$refs.inputs[emptySlotNum].focus()
+						this.message = `Введіть оцінку: ${emptySlotNum + 1}`
+					} else {
+						this.message = 'Мінімальна оцінка: ' + Math.min(...this.inputs)
+					}
+				},
+				cleanMessage() {
+					this.message = null
+				}
+			},
+
+		})
+		app.mount('#app')
+	</script>
+
+</body>
+
+</html>
