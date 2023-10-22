@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../../css/normalize.css">
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<style>
+		.task {
+			padding-top: 20px;
+			width: fit-content;
+			margin: 0px auto;
+			color: #ebebeb99;
+		}
+
+		.task_title {
+			text-align: center;
+			padding: 5px;
+		}
+
+		.task_desc {
+			max-width: 600px;
+			text-align: justify;
+			padding: 16px;
+		}
+
+		.container {
+			display: flex;
+			gap: 20px;
+			align-items: center;
+			justify-content: center
+		}
+
+		.wrapper {
+			margin: 0px auto;
+			width: 800px;
+			text-align: center;
+		}
+
+		.list {
+			margin-top: 20px;
+			padding: 16px;
+			border: 2px solid white;
+			width: 100px;
+		}
+
+		.list_item {
+			padding: 5px;
+			text-align: left;
+			font-size: 18px;
+			border: 1px solid white;
+			margin: 10px 0;
+		}
+
+		.blue_border {
+			border: 1px solid blue;
+		}
+	</style>
+
+	<title>ДЗ №2</title>
+
+</head>
+
+<body>
+	<div class="task">
+		<p class="task_title">Завдання №1</p>
+		<p class="task_desc">Перекладач. Користувачу виводять змішані картки з словами на англійській і українській мові.
+			Користувач поступово клікає на картки (виділяємо синьою рамкою). Якщо знайдено правильні пари карток, що
+			відповідають одному слову, то видаляємо ці
+			картки. Інакше - виділяємо червоною рамкою і через секунду забираємо рамку.
+		</p>
+	</div>
+
+	<div id="app">
+
+		<div class="wrapper">
+
+			<p>Знайдіть пари слів</p>
+
+			<div class="container">
+				<div class="list list-en">
+					<ul>
+						<li ref="english" v-for="(el, index) in wordsList" :key="el.id" class="list_item"
+							@click="getCurrentBorder(index)">
+							{{el.en}}</li>
+					</ul>
+				</div>
+				<div class="list list-ua">
+					<ul>
+						<li v-for="el in wordsList" :key="el.id" class="list_item" @click="getCurrentBorder(el.id)">{{el.ua}}</li>
+					</ul>
+				</div>
+			</div>
+
+
+
+		</div>
+
+
+
+
+	</div>
+
+	<script>
+		const { createApp } = Vue
+
+		const words = [
+			{ id: 0, en: 'table', ua: 'стіл' },
+			{ id: 1, en: 'car', ua: 'автомобіль' },
+			{ id: 2, en: 'bus', ua: 'автобус' },
+			{ id: 3, en: 'man', ua: 'людина' },
+			{ id: 4, en: 'boy', ua: 'хлопець' },
+
+		]
+
+		const app = createApp({
+
+			data() {
+				return {
+					currentPair: {
+						ua: '',
+						en: ''
+					},
+					currenBorderColor: 'white'
+				}
+			},
+			computed: {
+				wordsList() {
+					return words
+				},
+				getBlueBorder() {
+					return false
+				},
+			},
+			methods: {
+				getCurrentBorder(index) {
+					console.log(index)
+					console.log(this.$refs.english)
+					this.$refs.english[index].classList.toggle('blue_border')
+					console.log();
+				}
+			},
+
+		})
+		app.mount('#app')
+	</script>
+
+</body>
+
+</html>
