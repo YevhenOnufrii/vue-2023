@@ -2,8 +2,9 @@ export const notebooksList = [
   {
     id: 1,
     title: 'Ноутбук ASUS TUF Gaming A15 (2023)',
-    imgSrc:
-      'https://content.rozetka.com.ua/goods/images/original/349586929.jpg',
+    // imgSrc:
+    //   'https://content.rozetka.com.ua/goods/images/original/349586929.jpg',
+    imgSrc: '../assets/01.webp',
     discount: 8000,
     oldPrice: 59999,
     price: 51999,
@@ -12,8 +13,7 @@ export const notebooksList = [
   {
     id: 2,
     title: 'Ноутбук ASUS TUF Gaming F15 FX506HF-HN038 ...',
-    imgSrc:
-      'https://content.rozetka.com.ua/goods/images/original/323437245.jpg',
+    imgSrc: 'https://content.rozetka.com.ua/goods/images/original/323437245.jpg',
     discount: 6500,
     oldPrice: 38999,
     price: 32499,
@@ -22,8 +22,7 @@ export const notebooksList = [
   {
     id: 3,
     title: 'Ноутбук HP Victus Gaming Laptop ...',
-    imgSrc:
-      'https://content.rozetka.com.ua/goods/images/original/368225648.jpg',
+    imgSrc: 'https://content.rozetka.com.ua/goods/images/original/368225648.jpg',
     discount: 5000,
     oldPrice: 39999,
     price: 34999,

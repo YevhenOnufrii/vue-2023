@@ -1,7 +1,11 @@
 <template>
   <div class="container">
-    <div class="img_box"><img :src="notebook.imgSrc" /></div>
-
+    <!-- <div class="img_box">
+      <img :src="notebook.imgSrc" />
+    </div> -->
+    <div class="img_box">
+      <img src="../assets/01.webp" />
+    </div>
     <div class="description_box">
       <a class="title" :href="notebook.link" target="_blank">{{ notebook.title }}</a>
       <p class="discount">
